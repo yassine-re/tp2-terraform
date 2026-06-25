@@ -5,5 +5,6 @@ locals {
     environment = var.environment
     owner       = "formation"
     managed_by  = "terraform"
+    cost_center = "cloud-training"
   }
 }
