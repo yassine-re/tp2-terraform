@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "web" {
-  count               = 2
+  count               = var.vm_count
   name                = "pip-${local.prefix}-web-${count.index + 1}"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
@@ -8,7 +8,7 @@ resource "azurerm_public_ip" "web" {
   tags                = local.common_tags
 }
 resource "azurerm_network_interface" "web" {
-  count               = 2
+  count               = var.vm_count
   name                = "nic-${local.prefix}-web-${count.index + 1}"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
@@ -21,11 +21,11 @@ resource "azurerm_network_interface" "web" {
   }
 }
 resource "azurerm_linux_virtual_machine" "web" {
-  count               = 2
+  count               = var.vm_count
   name                = "vm-${local.prefix}-web-${count.index + 1}"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
-  size                = "Standard_B2als_v2"
+  size                = var.vm_size
   admin_username      = var.admin_username
   network_interface_ids = [
     azurerm_network_interface.web[count.index].id
